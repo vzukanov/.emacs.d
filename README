@@ -1,0 +1,5 @@
+This folder contains my customizations for GNU Emacs 24+.
+
+Most of the customizations should be compatible with other distributions of Emacs as well (not tested).
+
+On most systems, just cloning the contents of this folder into ~/.emacs.d/ should be enough.
