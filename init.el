@@ -1,13 +1,9 @@
+;;
+;;
+;; This file contains my Emacs customizations.
+;; 
+;;
 
-;; NOTE:
-;;  from time to time , especially when you add new lisp modules, 
-;;  compile everything using this command:
-;;  C-u 0 M-x byte-recompile-directory
-;;  in order to speed up emacs' responsivity!!!
-;;  It will compile all the .el files in the directory and in
-;;  all subdirectories below.
-
-;; TODO Vasiliy: 26.03.2015 - add some script for periodical auto compilation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;; LOAD PATH AND FILES ;;;;;;;;;;;;;;;;;;;;;;;;;;
