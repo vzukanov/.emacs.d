@@ -38,6 +38,10 @@
 ;; Load verilog mode only when needed
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
 
+;; Load nXhtml mode only when needed
+(autoload 'nxhtml-mode "nxhtml-mode" "nXhtml mode" t )
+
+
 ;; Show the name of the function in the status panel
 (which-function-mode 1)
 
@@ -49,6 +53,18 @@
 ;;(ido-mode 1)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; FILE EXTENSIONS ASSOCIATION ;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Any files that end in .v, .sv, .dv, .svh, .vh, etc. should be in verilog mode
+(add-to-list 'auto-mode-alist '("\\.[s]?v[sh]?\\'" . verilog-mode))
+;; Also .rdl and .srdl files in verilog mode
+(add-to-list 'auto-mode-alist '("\\.[s]?rdl\\'" . verilog-mode))
+
+;; PHP files in xNhtml mode
+(add-to-list 'auto-mode-alist '("\\.php\\'" . nxhtml-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; HOOKS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -120,11 +136,6 @@ the syntax class ')'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;; verilog-mode configuration ;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Any files that end in .v, .sv, .dv, .svh, .vh, etc. should be in verilog mode
-(add-to-list 'auto-mode-alist '("\\.[s]?v[sh]?\\'" . verilog-mode))
-;; Also .rdl and .srdl files in verilog mode
-(add-to-list 'auto-mode-alist '("\\.[s]?rdl\\'" . verilog-mode))
 
 ;; Any files in verilog mode should have their keywords colorized
 (add-hook 'verilog-mode-hook '(lambda () (font-lock-mode 1)))
@@ -237,3 +248,4 @@ minor mode."
   (my-keys-minor-mode 0))
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+(put 'narrow-to-region 'disabled nil)
