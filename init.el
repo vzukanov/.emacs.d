@@ -41,16 +41,20 @@
 ;; Load nXhtml mode only when needed
 (autoload 'nxhtml-mode "nxhtml-mode" "nXhtml mode" t )
 
+;; Load Yaml mode only when needed
+(autoload 'yaml-mode "yaml-mode" "yaml mode" t)
+
 
 ;; Show the name of the function in the status panel
 (which-function-mode 1)
 
 ;; Show the opening of the parenthesized block if the point is at its closing
 ;; and the beggining is not visible on screen
-(show-paren-mode 1)
+;; (show-paren-mode 1)
 
 ;; Enable ido-mode
 ;;(ido-mode 1)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,11 +64,20 @@
 
 ;; Any files that end in .v, .sv, .dv, .svh, .vh, etc. should be in verilog mode
 (add-to-list 'auto-mode-alist '("\\.[s]?v[sh]?\\'" . verilog-mode))
+
 ;; Also .rdl and .srdl files in verilog mode
 (add-to-list 'auto-mode-alist '("\\.[s]?rdl\\'" . verilog-mode))
 
+;; Also .upf files in tcl  mode
+(add-to-list 'auto-mode-alist '("\\.upf\\'" . tcl-mode))
+
 ;; PHP files in xNhtml mode
 (add-to-list 'auto-mode-alist '("\\.php\\'" . nxhtml-mode))
+
+;; yml in Yaml mode
+(add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; HOOKS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -125,13 +138,6 @@ the syntax class ')'."
          (if (buffer-file-name)
              (abbreviate-file-name (buffer-file-name))
            "%b"))))     
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;; Tcl mode config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Also .upf files in tcl  mode
-(add-to-list 'auto-mode-alist '("\\.upf\\'" . tcl-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;; verilog-mode configuration ;;;;;;;;;;;;;;;;;;;
