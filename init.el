@@ -51,6 +51,18 @@
 ;; Disable menu bar
 (menu-bar-mode -1)
 
+;; Set centralized backup directory
+(setq backup-directory-alist `(("." . "~/.emacs-backups")))
+
+;; Perform backups by copy
+(setq backup-by-copying t)
+
+(setq delete-old-versions t
+      kept-new-versions 3
+      kept-old-versions 2
+      version-control t)
+
+
 ;; Show the opening of the parenthesized block if the point is at its closing
 ;; and the beggining is not visible on screen
 ;; (show-paren-mode 1)
