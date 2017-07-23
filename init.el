@@ -48,6 +48,9 @@
 ;; Show the name of the function in the status panel
 (which-function-mode 1)
 
+;; Disable menu bar
+(menu-bar-mode -1)
+
 ;; Show the opening of the parenthesized block if the point is at its closing
 ;; and the beggining is not visible on screen
 ;; (show-paren-mode 1)
