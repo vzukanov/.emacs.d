@@ -107,8 +107,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(add-hook 'isearch-update-post-hook                    ; execute show-whole-line after each update in isearch-mode
-          'show-whole-line)  
+;; (add-hook 'isearch-update-post-hook                    ; execute show-whole-line after each update in isearch-mode
+;;           'show-whole-line)  
 
 (add-hook 'activate-mark-hook                          ; deactivate line highlight when region highlighted
           '(lambda () (global-hl-line-mode -1)))
