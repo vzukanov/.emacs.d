@@ -21,6 +21,8 @@
 ; Path to look for Emacs themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
+; Set frame size
+(if (window-system) (set-frame-size (selected-frame) 124 40))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; THEMES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
