@@ -168,6 +168,13 @@ the syntax class ')'."
              (abbreviate-file-name (buffer-file-name))
            "%b"))))     
 
+;; Disable sound bell and replac it with line flash
+(setq visible-bell nil
+      ring-bell-function 'flash-mode-line)
+(defun flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;; verilog-mode configuration ;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -275,6 +282,16 @@ minor mode."
       (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
         (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
         (add-to-list 'minor-mode-map-alist mykeys))))
+(ad-activate 'load)
+
+
+(defun my-minibuffer-setup-hook ()
+  "Disable my-keys-minor-mode in minibuffer"
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+(put 'narrow-to-region 'disabled nil)
+(add-to-list 'minor-mode-map-alist mykeys))))
 (ad-activate 'load)
 
 
