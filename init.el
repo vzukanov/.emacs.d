@@ -53,6 +53,9 @@
 ;; Disable menu bar
 (menu-bar-mode -1)
 
+;; Disable toolbar
+(tool-bar-mode -1)
+
 ;; Set centralized backup directory
 (setq backup-directory-alist `(("." . "~/.emacs-backups")))
 
