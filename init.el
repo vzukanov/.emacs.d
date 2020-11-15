@@ -9,6 +9,10 @@
 ;;;;;;;;;;;;;;;;;;;;; LOAD PATH AND FILES ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(when (eval-when-compile (version< emacs-version "27"))
+  (package-initialize))
+
 ; Add my lisp dir to search path
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
@@ -74,6 +78,9 @@
 
 ;; Enable ido-mode
 ;;(ido-mode 1)
+
+;; Don't use tabs for indentation
+(setq-default indent-tabs-mode nil)
 
 
 
@@ -174,6 +181,13 @@ the syntax class ')'."
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;; kotlin-mode configuration ;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq-default kotlin-tab-width 4)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;; verilog-mode configuration ;;;;;;;;;;;;;;;;;;;
@@ -290,14 +304,5 @@ minor mode."
   (my-keys-minor-mode 0))
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-(put 'narrow-to-region 'disabled nil)
-(add-to-list 'minor-mode-map-alist mykeys))))
-(ad-activate 'load)
 
-
-(defun my-minibuffer-setup-hook ()
-  "Disable my-keys-minor-mode in minibuffer"
-  (my-keys-minor-mode 0))
-
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 (put 'narrow-to-region 'disabled nil)
