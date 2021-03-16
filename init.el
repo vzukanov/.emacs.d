@@ -71,7 +71,6 @@
       kept-old-versions 2
       version-control t)
 
-
 ;; Show the opening of the parenthesized block if the point is at its closing
 ;; and the beggining is not visible on screen
 ;; (show-paren-mode 1)
@@ -82,7 +81,29 @@
 ;; Don't use tabs for indentation
 (setq-default indent-tabs-mode nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;; make scroll-all-mode work with mouse ;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun mwheel-scroll-all-function-all (func &optional arg)
+  (if (and scroll-all-mode arg)
+      (save-selected-window
+        (walk-windows
+         (lambda (win)
+           (select-window win)
+           (condition-case nil
+               (funcall func arg)
+             (error nil)))))
+    (funcall func arg)))
+
+(defun mwheel-scroll-all-scroll-up-all (&optional arg)
+  (mwheel-scroll-all-function-all 'scroll-up arg))
+
+(defun mwheel-scroll-all-scroll-down-all (&optional arg)
+  (mwheel-scroll-all-function-all 'scroll-down arg))
+
+(setq mwheel-scroll-up-function 'mwheel-scroll-all-scroll-up-all)
+(setq mwheel-scroll-down-function 'mwheel-scroll-all-scroll-down-all)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;; FILE EXTENSIONS ASSOCIATION ;;;;;;;;;;;;;;;;;;;
@@ -306,3 +327,4 @@ minor mode."
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
 (put 'narrow-to-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
