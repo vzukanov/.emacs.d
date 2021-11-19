@@ -50,6 +50,9 @@
 ;; Load Yaml mode only when needed
 (autoload 'yaml-mode "yaml-mode" "yaml mode" t)
 
+;; Load Kotlin mode only when needed
+(autoload 'kotlin-mode "kotlin-mode" "kotlin mode" t)
+
 
 ;; Show the name of the function in the status panel
 (which-function-mode 1)
@@ -121,6 +124,9 @@
 
 ;; yml in Yaml mode
 (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode))
+
+;; .kt in Kotlin mode
+(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-mode))
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
