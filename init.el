@@ -58,10 +58,11 @@
 (which-function-mode 1)
 
 ;; Disable menu bar
-(menu-bar-mode -1)
+(menu-bar-mode 0)
 
 ;; Disable toolbar
-(tool-bar-mode -1)
+(if (window-system)
+    (tool-bar-mode 0))
 
 ;; Set centralized backup directory
 (setq backup-directory-alist `(("." . "~/.emacs-backups")))
