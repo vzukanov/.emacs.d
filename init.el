@@ -41,16 +41,9 @@
  
 (require 'transpose-frame) ; manipulating frames in a window
 
-;; Load verilog mode only when needed
-(autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
-
-;; Load web mode only when needed
 (autoload 'web-mode "web-mode" "web mode" t )
-
-;; Load Yaml mode only when needed
+(autoload 'js2-mode "js2-mode" "js2 mode" t )
 (autoload 'yaml-mode "yaml-mode" "yaml mode" t)
-
-;; Load Kotlin mode only when needed
 (autoload 'kotlin-mode "kotlin-mode" "kotlin mode" t)
 
 
@@ -137,7 +130,7 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.s?css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.xml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
