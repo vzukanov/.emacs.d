@@ -196,12 +196,16 @@ the syntax class ')'."
              (abbreviate-file-name (buffer-file-name))
            "%b"))))     
 
-;; Disable sound bell and replac it with line flash
+;; Disable sound bell and replace it with line flash
 (setq visible-bell nil
       ring-bell-function 'flash-mode-line)
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
+;; Swap Command and Option keys on macOS
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'super)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;; kotlin-mode configuration ;;;;;;;;;;;;;;;;;;;
