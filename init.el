@@ -277,58 +277,57 @@ the syntax class ')'."
                                  table))))
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;; my key bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; 1) Define a sparse keymap (better than `make-keymap` for custom bindings)
+(defvar my-keys-minor-mode-map (make-sparse-keymap)
+  "Keymap for `my-keys-minor-mode`.")
 
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+;; Helpers for smooth scrolling without moving point
+(defun my/scroll-up-4 ()   (interactive) (scroll-up   4))
+(defun my/scroll-down-4 () (interactive) (scroll-down 4))
 
-(define-key my-keys-minor-mode-map "\M-g"     'goto-line)
-(define-key my-keys-minor-mode-map "\C-c\C-k" 'duplicate-line)
-(define-key my-keys-minor-mode-map "\C-x\C-b" 'buffer-menu)
-(define-key my-keys-minor-mode-map "\C-x\C-f" 'find-file-at-point)
-(define-key my-keys-minor-mode-map "\C-xt"    'toggle-truncate-lines)
-(define-key my-keys-minor-mode-map "\C-ct"    'transpose-frame)
-(define-key my-keys-minor-mode-map "\C-z"     'undo)
-(define-key my-keys-minor-mode-map "\C-cr"    'revert-buffer) 
+;; 2) Bindings (use `kbd` for readability/portability)
+(define-key my-keys-minor-mode-map (kbd "M-g")       #'goto-line)
+(define-key my-keys-minor-mode-map (kbd "C-c C-k")   #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-x C-b")   #'buffer-menu)
+(define-key my-keys-minor-mode-map (kbd "C-x C-f")   #'find-file-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-x t")     #'toggle-truncate-lines)
+(define-key my-keys-minor-mode-map (kbd "C-c t")     #'transpose-frame)
+(define-key my-keys-minor-mode-map (kbd "C-z")       #'undo)
+(define-key my-keys-minor-mode-map (kbd "C-c r")     #'revert-buffer)
+(define-key my-keys-minor-mode-map (kbd "<f4>")      #'insert-todo)
+(define-key my-keys-minor-mode-map (kbd "C-x r")     #'replace-string)
+(define-key my-keys-minor-mode-map (kbd "C-x C-r")   #'replace-regexp)
+(define-key my-keys-minor-mode-map (kbd "M-p")       #'my/scroll-down-4)
+(define-key my-keys-minor-mode-map (kbd "M-n")       #'my/scroll-up-4)
+(define-key my-keys-minor-mode-map (kbd "C-c C-h")   #'highlight-symbol-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c C-n")   #'highlight-symbol-next)
+(define-key my-keys-minor-mode-map (kbd "C-c C-p")   #'highlight-symbol-prev)
 
-(define-key my-keys-minor-mode-map [f4]       'insert-todo) ; add todo item at the end of line
-(define-key my-keys-minor-mode-map "\C-xr"    'replace-string) 
-(define-key my-keys-minor-mode-map "\C-x\C-r" 'replace-regexp) ; overwrites find-file-read-only, but I don't use it anyway
-
-(define-key my-keys-minor-mode-map "\M-p"  '(lambda () (interactive) (scroll-down 4)))      ; scroll up, point not moving
-(define-key my-keys-minor-mode-map "\M-n"  '(lambda () (interactive) (scroll-up 4)))    ; scroll down, point not moving
-
-(define-key my-keys-minor-mode-map "\C-c\C-h" 'highlight-symbol-at-point)
-(define-key my-keys-minor-mode-map "\C-c\C-n" 'highlight-symbol-next)
-(define-key my-keys-minor-mode-map "\C-c\C-p" 'highlight-symbol-prev)
-
-
+;; 3) Minor mode (global) with a lighter
 (define-minor-mode my-keys-minor-mode
-  "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
+  "Global minor mode so my keybindings override most modes."
+  :init-value t
+  :global t
+  :lighter " my-keys")
 
+;; 4) Give it top priority *without* advice/reordering:
+;;    `emulation-mode-map-alists` sits above all minor modes.
+(add-to-list 'emulation-mode-map-alists
+             `((my-keys-minor-mode . ,my-keys-minor-mode-map)))
+
+;; 5) Disable in minibuffer (so it doesn't shadow minibuffer keys)
+(defun my-keys--minibuffer-setup () (my-keys-minor-mode -1))
+(defun my-keys--minibuffer-exit ()  (my-keys-minor-mode +1))
+(add-hook 'minibuffer-setup-hook #'my-keys--minibuffer-setup)
+(add-hook 'minibuffer-exit-hook  #'my-keys--minibuffer-exit)
+
+;; 6) Enable the mode
 (my-keys-minor-mode 1)
 
-
-(defadvice load (after give-my-keybindings-priority)
-  "Try to ensure that my keybindings always have priority over any other
-minor mode."
-  (if (not (eq (car (car minor-mode-map-alist)) 'my-keys-minor-mode))
-      (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
-        (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
-        (add-to-list 'minor-mode-map-alist mykeys))))
-(ad-activate 'load)
-
-
-(defun my-minibuffer-setup-hook ()
-  "Disable my-keys-minor-mode in minibuffer"
-  (my-keys-minor-mode 0))
-
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
+;; 7) Allow narrow/erase
 (put 'narrow-to-region 'disabled nil)
-(put 'erase-buffer 'disabled nil)
+(put 'erase-buffer     'disabled nil)
