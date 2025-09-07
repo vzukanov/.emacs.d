@@ -281,7 +281,7 @@ the syntax class ')'."
 ;;;;;;;;;;;;;;;;;;;; my key bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; 1) Define a sparse keymap (better than `make-keymap` for custom bindings)
+;; Define a sparse keymap (better than `make-keymap` for custom bindings)
 (defvar my-keys-minor-mode-map (make-sparse-keymap)
   "Keymap for `my-keys-minor-mode`.")
 
@@ -289,14 +289,13 @@ the syntax class ')'."
 (defun my/scroll-up-4 ()   (interactive) (scroll-up   4))
 (defun my/scroll-down-4 () (interactive) (scroll-down 4))
 
-;; 2) Bindings (use `kbd` for readability/portability)
+;; Bindings
 (define-key my-keys-minor-mode-map (kbd "M-g")       #'goto-line)
-(define-key my-keys-minor-mode-map (kbd "C-c C-k")   #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-c C-d")   #'duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-x C-b")   #'buffer-menu)
 (define-key my-keys-minor-mode-map (kbd "C-x C-f")   #'find-file-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-x t")     #'toggle-truncate-lines)
 (define-key my-keys-minor-mode-map (kbd "C-c t")     #'transpose-frame)
-(define-key my-keys-minor-mode-map (kbd "C-z")       #'undo)
 (define-key my-keys-minor-mode-map (kbd "C-c r")     #'revert-buffer)
 (define-key my-keys-minor-mode-map (kbd "<f4>")      #'insert-todo)
 (define-key my-keys-minor-mode-map (kbd "C-x r")     #'replace-string)
@@ -307,27 +306,27 @@ the syntax class ')'."
 (define-key my-keys-minor-mode-map (kbd "C-c C-n")   #'highlight-symbol-next)
 (define-key my-keys-minor-mode-map (kbd "C-c C-p")   #'highlight-symbol-prev)
 
-;; 3) Minor mode (global) with a lighter
+;; Minor mode (global) with a lighter
 (define-minor-mode my-keys-minor-mode
   "Global minor mode so my keybindings override most modes."
   :init-value t
   :global t
   :lighter " my-keys")
 
-;; 4) Give it top priority *without* advice/reordering:
+;; Give it top priority *without* advice/reordering:
 ;;    `emulation-mode-map-alists` sits above all minor modes.
 (add-to-list 'emulation-mode-map-alists
              `((my-keys-minor-mode . ,my-keys-minor-mode-map)))
 
-;; 5) Disable in minibuffer (so it doesn't shadow minibuffer keys)
+;; Disable in minibuffer (so it doesn't shadow minibuffer keys)
 (defun my-keys--minibuffer-setup () (my-keys-minor-mode -1))
 (defun my-keys--minibuffer-exit ()  (my-keys-minor-mode +1))
 (add-hook 'minibuffer-setup-hook #'my-keys--minibuffer-setup)
 (add-hook 'minibuffer-exit-hook  #'my-keys--minibuffer-exit)
 
-;; 6) Enable the mode
+;; Enable the mode
 (my-keys-minor-mode 1)
 
-;; 7) Allow narrow/erase
+;; Allow narrow/erase
 (put 'narrow-to-region 'disabled nil)
 (put 'erase-buffer     'disabled nil)
